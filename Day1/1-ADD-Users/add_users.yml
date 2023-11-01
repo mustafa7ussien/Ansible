@@ -1,0 +1,24 @@
+---
+- name: Playbook to add list of users
+  hosts: webserver
+  vars:
+    users_list:
+      - name: mostafa
+        uid:  4000
+      - name: mostafa1
+        uid:  4001
+      - name: mostafa2
+        uid:  4002
+      - name: mostafa3
+        uid:  4003
+      - name: mostafa4
+        uid:  4004
+      - name: mostafa5
+        uid:  4005
+  tasks:
+    - name: Add users
+      user:
+        name: "{{item.name}}"
+        uid:  "{{item.uid}}"
+      loop: "{{users_list}}"
+

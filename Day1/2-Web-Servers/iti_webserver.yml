@@ -1,0 +1,33 @@
+---
+- name: Playbook to install custom iti webserver on rhel ec2
+  hosts: webserver
+  vars:
+    username: Mustafa
+  tasks:
+    - name: install nginx
+      ansible.builtin.dnf:
+        name: nginx
+        state: present
+    - name: enable nginx svc --now
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: add custom root page
+      copy:
+        src:  ./index.html.j2
+        dest: /usr/share/nginx/html/index.html
+        mode: 0644
+    # - name: restart nginx svc
+    #   ansible.builtin.service:
+    #     name: nginx
+    #     state: restarted
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted    
+    
+
