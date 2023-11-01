@@ -6,23 +6,21 @@
 - check connectivy
     -   cd day1 folder
     -   Run Command
+    
         ```bash
         ansible webserver -m ping
         ```
 - OR Can user private key if not use in .ssh
         ```bash
         ansible webserver -m ping  --private-key=mostafa_admin_keypair.pem
-
         ```
 - Check Syntax of playbook
         ```bash
         ansible-playbook add_users.yml --syntax-check
-
         ```
 - ADD Users
         ```bash
         ansible-playbook add_users.yml --private-key=mostafa_admin_keypair.pem
-        
         ```
      -   ![alt](images/add_users.PNG)
 
