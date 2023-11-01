@@ -1,13 +1,25 @@
 ---
 - name: Playbook to install custom iti webserver on rhel ec2
   hosts: webserver
+  gather_facts: no
   vars:
     username: Mustafa
+    nginx_pkg: nginx
+    #to install list of pkgs
+    # nginx_pkgs:
+    #   - nginx
+    nginx_svc: nginx
+    nginx_htm_dir: /usr/share/nginx/html/
   tasks:
     - name: install nginx
       ansible.builtin.dnf:
+        # will take one item or list without loop
+        # name: "{{ nginx_pkgs }}"
         name: nginx
+        # name: "{{ item }}"
         state: present
+      # to install list of pkgs
+      # loop: "{{ nginx_pkgs }}"
     - name: enable nginx svc --now
       ansible.builtin.service:
         name: nginx
@@ -16,8 +28,8 @@
 
     - name: add custom root page
       copy:
-        src:  ./index.html.j2
-        dest: /usr/share/nginx/html/index.html
+        src:  ./templates/index.html.j2
+        dest: "{{ nginx_htm_dir }}/index.html"
         mode: 0644
       notify: restart nginx
     # - name: restart nginx svc
@@ -28,7 +40,7 @@
   handlers:
     - name: restart nginx
       service:
-        name: nginx
+        name: "{{ nginx_svc }}"
         state: restarted    
     
 
