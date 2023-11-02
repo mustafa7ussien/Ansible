@@ -1,0 +1,7 @@
+---
+- name: Playbook to install custom iti webserver on rhel ec2
+  hosts: webserver
+  gather_facts: no
+  roles: 
+  - webserver-role
+

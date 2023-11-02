@@ -1,0 +1,27 @@
+---
+#condition and loop:
+- name: Install softwares
+  hosts: localhost
+  vars: 
+    packages:
+      - name: nginx
+        required: true
+      - name: mysql
+        required: true
+      - name: apache
+        required: false
+  tasks:
+  #when os redhat
+  - name: Install "{{item.name}}"
+    yum:
+      name: "{{item.name}}"
+      state: present
+    when: item.required==true and ansible_os_family=="RedHat"
+    loop: "{{packages}}"
+    #when os debain
+  - name: Install "{{item.name}}"
+    apt:
+      name: "{{item.name}}"
+      state: present
+    when: item.required==true and ansible_os_family=="Debain"
+    loop: "{{packages}}"

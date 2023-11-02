@@ -1,0 +1,40 @@
+---
+#modules in ansibles
+# system commands files database cloud windows ...
+
+- name: play5
+  hosts: localhost
+  tasks:
+    - name: Execute command
+      command: date
+    - name: Display resolve.conf content
+      command: cat /etc/resolve.conf
+
+---
+#script execute script from your local machine to remote server
+- name: play5
+  hosts: localhost
+  tasks:
+    - name: Execute script
+      script: ./home/local/script.sh 
+---
+#service module  start stop restart
+
+- name: play5
+  hosts: localhost
+  tasks:
+    - name: start service
+      service:
+        name: postgresql
+        state: started
+#search line in file and replace
+- name: play5
+  hosts: localhost
+  tasks:
+    - name: Add dns server to resolve.conf
+      lineinfile:
+        path: /etc/resolve.conf
+        stlineate: "nameserver 192.168.111.2"
+
+
+

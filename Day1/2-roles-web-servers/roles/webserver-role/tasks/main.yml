@@ -1,0 +1,24 @@
+---
+# tasks file for roles/webserver-role
+
+- name: install nginx
+  ansible.builtin.dnf:
+    # will take one item or list without loop
+    # name: "{{ nginx_pkgs }}"
+    name: nginx
+    # name: "{{ item }}"
+    state: present
+     # to install list of pkgs
+     # loop: "{{ nginx_pkgs }}" 
+- name: enable nginx svc --now
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: add custom root page
+  copy:
+    src:  ./templates/index.html.j2
+    dest: "{{ nginx_htm_dir }}/index.html"
+    mode: 0644
+    notify: restart nginx
